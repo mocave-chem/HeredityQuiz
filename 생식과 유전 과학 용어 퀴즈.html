@@ -1,0 +1,689 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>생식과 유전 과학 용어 퀴즈</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one centered stage that swaps screens (home → practice / setup → play → ranking); Punnett-square grid as the emblem */
+:root{
+  --bg:#F1F4F2; --surface:#FFFFFF; --ink:#16231F; --muted:#5B6B65; --line:#D4DCD8;
+  --accent:#3D3A9E; --accent-soft:#E7E6F7; --on-accent:#FFFFFF;
+  --gene:#D98A12; --gene-soft:#FBEBD0; --gene-ink:#8A5506; --on-gene:#241703;
+  --ok:#1D8455; --ok-soft:#DDF1E6; --bad:#C2373A; --bad-soft:#F8E0E0;
+  --scrim:rgba(18,30,26,.55);
+  --font-display:"Black Han Sans","IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111816; --surface:#1A2421; --ink:#E7EEEB; --muted:#9AABA4; --line:#2E3B37;
+  --accent:#A9A5F2; --accent-soft:#272654; --on-accent:#15143A;
+  --gene:#F0AE45; --gene-soft:#3A2C12; --gene-ink:#F3BE68; --on-gene:#241703;
+  --ok:#5BCB92; --ok-soft:#173326; --bad:#F07A7C; --bad-soft:#3D1C1D;
+  --scrim:rgba(5,10,8,.72); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#111816; --surface:#1A2421; --ink:#E7EEEB; --muted:#9AABA4; --line:#2E3B37;
+  --accent:#A9A5F2; --accent-soft:#272654; --on-accent:#15143A;
+  --gene:#F0AE45; --gene-soft:#3A2C12; --gene-ink:#F3BE68; --on-gene:#241703;
+  --ok:#5BCB92; --ok-soft:#173326; --bad:#F07A7C; --bad-soft:#3D1C1D;
+  --scrim:rgba(5,10,8,.72); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));word-break:keep-all}
+.stage{max-width:1000px;margin:0 auto;padding-block:28px 56px}
+section{display:flex;flex-direction:column;gap:20px}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gene);outline-offset:2px}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;color:var(--muted);font-weight:600}
+h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.8rem,4vw,2.4rem);line-height:1.2}
+
+/* home */
+.hero{display:flex;gap:28px;align-items:center;flex-wrap:wrap;padding-block:8px}
+.hero > div:last-child{min-width:0;flex:1 1 300px}
+.hero h1{font-family:var(--font-display);font-weight:400;font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.15;margin-top:6px}
+.goal{margin-top:14px;color:var(--muted);max-width:52ch}
+.goal b{color:var(--ink);font-weight:600}
+.punnett{display:grid;grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px);gap:4px;flex:none}
+.punnett span{display:grid;place-items:center;font-weight:700;border-radius:8px;font-size:1.05rem}
+.punnett .h{color:var(--gene-ink)}
+.punnett .c{background:var(--surface);border:1px solid var(--line)}
+.punnett .d{background:var(--accent);color:var(--on-accent)}
+.punnett .r{background:var(--gene-soft);color:var(--gene-ink)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.mode{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:26px;border-radius:16px;
+  border:1.5px solid var(--line);background:var(--surface);transition:transform .15s,border-color .15s}
+.mode:hover{transform:translateY(-2px);border-color:var(--accent)}
+.mode-name{font-family:var(--font-display);font-size:2rem;line-height:1.2}
+.mode-desc{color:var(--muted)}
+.mode-meta{margin-top:10px;font-size:.9rem;font-weight:600;padding:4px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-variant-numeric:tabular-nums}
+.mode.play{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mode.play .mode-desc{color:inherit;opacity:.85}
+.mode.play .mode-meta{background:var(--gene);color:var(--on-gene)}
+.terms{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0 22px}
+.terms summary{padding:16px 0;font-weight:600;cursor:pointer}
+.terms h3{font-size:.85rem;letter-spacing:.06em;color:var(--gene-ink);margin:6px 0 10px}
+.terms dl{display:grid;grid-template-columns:8em minmax(0,1fr);gap:8px 16px;margin:0 0 20px}
+.terms dt{font-weight:700}
+.terms dd{margin:0;color:var(--muted)}
+@media (max-width:520px){.terms dl{grid-template-columns:1fr;gap:2px}.terms dd{margin-bottom:10px}}
+
+/* shared bits */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.link{background:none;border:none;padding:6px 0;color:var(--muted);font-weight:600}
+.link:hover{color:var(--ink)}
+.progress{font-weight:700;font-variant-numeric:tabular-nums}
+.tally{font-variant-numeric:tabular-nums;color:var(--muted)}
+.tally b{color:var(--ink)}
+.bar{height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.qlabel{font-size:.9rem;color:var(--muted);font-weight:600}
+.qtext{font-size:clamp(1.25rem,2.6vw,1.6rem);font-weight:500;line-height:1.55;text-wrap:pretty}
+.cat{align-self:flex-start;font-size:.8rem;font-weight:600;padding:3px 12px;border-radius:999px;background:var(--gene-soft);color:var(--gene-ink)}
+.primary{align-self:flex-end;background:var(--ink);color:var(--bg);border:none;border-radius:12px;padding:14px 30px;font-weight:700;font-size:1.1rem}
+.primary:hover{background:var(--accent);color:var(--on-accent)}
+.primary.big{font-size:1.4rem;padding:18px 44px}
+.secondary{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 24px;font-weight:700}
+.secondary:hover{border-color:var(--accent)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.round{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font-size:1.7rem;line-height:1;display:grid;place-items:center;flex:none}
+.round:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.round:disabled{opacity:.35;cursor:not-allowed}
+
+/* practice */
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.opt{display:flex;align-items:center;gap:12px;padding:18px 20px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);text-align:left;font-size:1.25rem;font-weight:700}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.opt:disabled{cursor:default}
+.opt .n{color:var(--muted);font-weight:500}
+.opt .mark{margin-left:auto;font-size:.9rem}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.opt.dim{opacity:.5}
+.feedback{padding:16px 20px;border-radius:14px;font-weight:700;font-size:1.1rem;display:flex;flex-direction:column;gap:2px}
+.feedback.ok{background:var(--ok-soft);color:var(--ok)}
+.feedback.bad{background:var(--bad-soft);color:var(--bad)}
+.feedback small{font-weight:400;font-size:.95rem;color:var(--ink)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 26px;display:flex;flex-direction:column;gap:4px}
+.stat .lbl{font-weight:600;color:var(--muted)}
+.stat .num{font-family:var(--font-display);font-size:3.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.stat .num small{font-family:var(--font-body);font-size:1rem;font-weight:600;margin-left:4px}
+.stat.ok .num{color:var(--ok)}
+.stat.bad .num{color:var(--bad)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 26px;display:flex;flex-direction:column;gap:14px}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.panel-head h3{font-size:1.1rem}
+.big-frac{font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.big-frac small{font-size:1.2rem;color:var(--muted)}
+.meter{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.tchip{padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:.95rem}
+.tchip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.tchip.new{background:var(--accent);color:var(--on-accent)}
+.note{font-size:.9rem;color:var(--muted)}
+.review{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.review li{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:12px}
+.review b{color:var(--bad)}
+@media (max-width:520px){.review li{grid-template-columns:1fr;gap:0}.stats{grid-template-columns:1fr}}
+
+/* setup */
+.counter{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.counter output{font-family:var(--font-display);font-size:3.2rem;min-width:1.4em;text-align:center;line-height:1;font-variant-numeric:tabular-nums}
+.counter .unit{font-weight:700;font-size:1.2rem}
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.names label{display:flex;flex-direction:column;gap:6px;font-size:.85rem;font-weight:600;color:var(--muted)}
+.names input{font:inherit;font-size:1.1rem;font-weight:500;padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);min-width:0}
+.names input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.setup-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* round status */
+.round-box{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:14px 18px;border-radius:14px;background:var(--gene-soft)}
+.round-tag{font-weight:700;padding:3px 12px;border-radius:999px;background:var(--gene);color:var(--on-gene)}
+.round-box .note{color:var(--ink);flex:1 1 260px}
+
+/* play */
+.play-grid{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:20px;align-items:start}
+@media (max-width:780px){.play-grid{grid-template-columns:1fr}}
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.type-chip{font-weight:700;padding:6px 16px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.type-chip.sa{background:var(--gene-soft);color:var(--gene-ink)}
+.timer{position:relative;width:104px;height:104px;flex:none}
+.timer svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer .track{fill:none;stroke:var(--line);stroke-width:8}
+.timer .ring{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;stroke-dasharray:276.46;transition:stroke-dashoffset .1s linear}
+.timer .tnum{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-display);font-size:2.5rem;font-variant-numeric:tabular-nums}
+.timer.low .ring{stroke:var(--bad)}
+.timer.low .tnum{color:var(--bad)}
+.qcard.big{padding:30px 32px;gap:22px}
+.qcard.big .qtext{font-size:clamp(1.4rem,3vw,2rem)}
+.optd{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.optd{grid-template-columns:1fr}}
+.optd li{padding:18px 12px;border-radius:14px;background:var(--accent-soft);font-size:clamp(1.25rem,2.4vw,1.7rem);font-weight:700;text-align:center;overflow-wrap:anywhere}
+.optd .n{display:block;font-size:1rem;color:var(--accent);font-weight:600}
+.cho{display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
+.cho .word{display:flex;gap:8px}
+.cho .ch{width:76px;height:76px;display:grid;place-items:center;border-radius:14px;background:var(--gene-soft);border:2px dashed var(--gene);font-size:2.3rem;font-weight:700;color:var(--gene-ink)}
+@media (max-width:480px){.cho .ch{width:52px;height:52px;font-size:1.6rem}.cho{gap:14px}}
+.cho-hint{text-align:center;color:var(--muted);font-size:.9rem}
+.board{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column}
+.board h3{font-size:.8rem;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.brow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.brow:last-child{border-bottom:none}
+.brow .nm{min-width:0;overflow-wrap:anywhere;font-weight:600}
+.brow .sc{font-family:var(--font-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.quit-ask{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:600}
+.quit-ask button{border-radius:10px;padding:6px 14px;border:1.5px solid var(--line);background:var(--surface);font-weight:700}
+.quit-ask .danger{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:50;background:var(--scrim);display:flex;overflow-y:auto;
+  padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.dialog{margin:auto;background:var(--surface);border-radius:22px;padding:30px;width:min(580px,100%);display:flex;flex-direction:column;gap:16px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.28);animation:pop .22s ease-out}
+@keyframes pop{from{transform:scale(.94);opacity:.4}to{transform:none;opacity:1}}
+.dialog .eyebrow{color:var(--bad)}
+.dialog h3{font-size:1.4rem}
+.dialog .primary{align-self:center}
+.ans-label{font-weight:600;color:var(--muted)}
+.answer{font-family:var(--font-display);font-size:clamp(2.4rem,7vw,3.8rem);color:var(--accent);line-height:1.15;overflow-wrap:anywhere}
+.ans-def{color:var(--muted);text-wrap:pretty}
+.dialog h4{font-size:.85rem;letter-spacing:.06em;color:var(--muted);text-align:left;margin-top:6px;padding-top:16px;border-top:1px solid var(--line)}
+.score-edit{display:flex;flex-direction:column;gap:8px}
+.se-row{display:grid;grid-template-columns:minmax(0,1fr) 46px 3em 46px;align-items:center;gap:8px;text-align:left}
+.se-row .nm{font-weight:600;overflow-wrap:anywhere}
+.se-row .round{width:46px;height:46px;font-size:1.05rem;font-weight:700}
+.se-row output{font-family:var(--font-display);font-size:1.6rem;text-align:center;font-variant-numeric:tabular-nums}
+
+/* ranking */
+.rank{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.rank li{display:grid;grid-template-columns:3.4em minmax(0,1fr) auto;align-items:center;gap:16px;padding:16px 24px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.rank .r{font-family:var(--font-display);font-size:1.7rem;line-height:1}
+.rank .nm{font-size:1.3rem;font-weight:700;overflow-wrap:anywhere}
+.rank .sc{font-family:var(--font-display);font-size:2rem;font-variant-numeric:tabular-nums;line-height:1}
+.rank .sc small{font-family:var(--font-body);font-size:.95rem;font-weight:600;margin-left:3px}
+.rank li.top{background:var(--accent);border-color:var(--accent);color:var(--on-accent);padding-block:22px}
+.rank li.top .nm{font-size:1.6rem}
+.rank li.top .sc{font-size:2.6rem}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<main class="stage">
+
+<!-- 첫 페이지 -->
+<section id="home">
+  <header class="hero">
+    <div class="punnett" aria-hidden="true">
+      <span></span><span class="h">R</span><span class="h">r</span>
+      <span class="h">R</span><span class="c d">RR</span><span class="c d">Rr</span>
+      <span class="h">r</span><span class="c d">Rr</span><span class="c r">rr</span>
+    </div>
+    <div>
+      <p class="eyebrow">과학 · 생식과 유전</p>
+      <h1>생식과 유전<br>과학 용어 퀴즈</h1>
+      <p class="goal"><b>학습 목표</b> 사람의 발생과 관련된 용어 및 유전 용어를 설명할 수 있다.</p>
+    </div>
+  </header>
+  <div class="modes">
+    <button class="mode" id="btnPractice" type="button">
+      <span class="mode-name">연습 모드</span>
+      <span class="mode-desc">혼자 풀기 · 용어 18개 중 10문제를 무작위로 · 보기 3개 중 고르면 바로 채점</span>
+      <span class="mode-meta" id="homeLearned">학습한 용어 0 / 18</span>
+    </button>
+    <button class="mode play" id="btnPlay" type="button">
+      <span class="mode-name">플레이 모드</span>
+      <span class="mode-desc">모둠 대항 · 10문제 (선택형 6 · 단답형 4, 무작위 순서) · 문제당 10초 · 정답 5점</span>
+      <span class="mode-meta" id="homePlayMeta">1차 플레이 차례</span>
+    </button>
+  </div>
+  <details class="terms">
+    <summary>퀴즈에 나오는 용어 18개 보기</summary>
+    <div id="termList"></div>
+  </details>
+</section>
+
+<!-- 연습 모드 -->
+<section id="practice" hidden>
+  <div class="topbar">
+    <button class="link" type="button" data-home>← 처음으로</button>
+    <span class="progress"><span id="pNum">1</span> / 10</span>
+    <span class="tally">정답 <b id="pOk">0</b> · 오답 <b id="pBad">0</b></span>
+  </div>
+  <div class="bar"><i id="pBar"></i></div>
+  <article class="qcard">
+    <p class="qlabel">다음 설명에 해당하는 용어는?</p>
+    <p class="qtext" id="pQ"></p>
+    <span class="cat" id="pCat"></span>
+  </article>
+  <div class="options" id="pOpts"></div>
+  <div class="feedback" id="pFb" hidden></div>
+  <button class="primary" id="pNext" type="button" hidden>다음 문제</button>
+</section>
+
+<!-- 연습 결과 -->
+<section id="pResult" hidden>
+  <p class="eyebrow">연습 모드 결과</p>
+  <h2>10문제를 모두 풀었어요</h2>
+  <div class="stats">
+    <div class="stat ok"><span class="lbl">정답</span><span class="num"><span id="rOk">0</span><small>개</small></span></div>
+    <div class="stat bad"><span class="lbl">오답</span><span class="num"><span id="rBad">0</span><small>개</small></span></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head">
+      <h3>18개 중 학습한 용어</h3>
+      <span class="big-frac"><span id="rLearned">0</span><small> / 18</small></span>
+    </div>
+    <div class="meter"><i id="rMeter"></i></div>
+    <div class="chips" id="rChips"></div>
+    <p class="note" id="rNew"></p>
+  </div>
+  <div class="panel" id="rReviewPanel">
+    <h3>다시 볼 용어</h3>
+    <ul class="review" id="rReview"></ul>
+  </div>
+  <div class="actions">
+    <button class="secondary" type="button" id="btnAgain">한 번 더 연습</button>
+    <button class="primary" type="button" data-home>종료</button>
+  </div>
+</section>
+
+<!-- 모둠 설정 -->
+<section id="setup" hidden>
+  <div class="topbar"><button class="link" type="button" data-home>← 처음으로</button></div>
+  <p class="eyebrow">플레이 모드</p>
+  <h2>모둠 설정</h2>
+  <div class="round-box">
+    <span class="round-tag" id="roundLabel">1차 플레이</span>
+    <p class="note" id="roundDesc"></p>
+    <button class="link" type="button" id="roundReset" hidden>기록 지우고 1차부터 시작</button>
+  </div>
+  <div class="counter">
+    <button class="round" type="button" id="gMinus" aria-label="모둠 하나 줄이기">−</button>
+    <output id="gCount">4</output>
+    <button class="round" type="button" id="gPlus" aria-label="모둠 하나 늘리기">+</button>
+    <span class="unit">모둠</span>
+  </div>
+  <div class="names" id="gNames"></div>
+  <div class="setup-foot">
+    <div>
+      <p class="note" id="setupHint">모둠 이름을 모두 입력하면 플레이 버튼이 나타납니다.</p>
+      <button class="link" type="button" id="fillNames">빈칸을 '1모둠, 2모둠…'으로 채우기</button>
+    </div>
+    <button class="primary big" type="button" id="btnStart" hidden>플레이</button>
+  </div>
+</section>
+
+<!-- 플레이 -->
+<section id="play" hidden>
+  <div class="topbar">
+    <button class="link" type="button" id="btnQuit">그만하기</button>
+    <div class="quit-ask" id="quitAsk" hidden>
+      <span>퀴즈를 그만하고 처음으로 갈까요?</span>
+      <button class="danger" type="button" id="quitYes">그만하기</button>
+      <button type="button" id="quitNo">계속하기</button>
+    </div>
+    <span class="progress"><b id="qNum">1</b> / 10</span>
+  </div>
+  <div class="bar"><i id="qBar"></i></div>
+  <div class="play-grid">
+    <article class="qcard big">
+      <div class="qhead">
+        <span class="type-chip" id="qChip">선택형</span>
+        <div class="timer" id="timer">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="44"></circle><circle class="ring" id="ring" cx="50" cy="50" r="44"></circle></svg>
+          <span class="tnum" id="tNum" aria-live="off">10</span>
+        </div>
+      </div>
+      <p class="qlabel">다음 설명에 해당하는 용어는?</p>
+      <p class="qtext" id="qText"></p>
+      <ol class="optd" id="qOpts"></ol>
+      <div id="qChoWrap">
+        <div class="cho" id="qCho"></div>
+        <p class="cho-hint">초성 힌트</p>
+      </div>
+    </article>
+    <aside class="board">
+      <h3>모둠 점수</h3>
+      <div id="board"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- 최종 순위 -->
+<section id="ranking" hidden>
+  <p class="eyebrow" id="rankEyebrow">플레이 모드 · 10문제 완료</p>
+  <h2>최종 순위</h2>
+  <ol class="rank" id="rankList"></ol>
+  <p class="note" id="rankNote"></p>
+  <div class="actions">
+    <button class="secondary" type="button" id="btnReplay">같은 모둠으로 다시 하기</button>
+    <button class="primary" type="button" data-home>처음으로</button>
+  </div>
+</section>
+
+</main>
+
+<!-- 시간 종료 팝업 -->
+<div class="overlay" id="modal" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <p class="eyebrow">시간 종료</p>
+    <div id="dlgPre" style="display:flex;flex-direction:column;gap:18px">
+      <h3 id="dlgTitle">10초가 지났습니다</h3>
+      <button class="primary big" type="button" id="btnReveal">정답 보기</button>
+    </div>
+    <div id="dlgPost" hidden style="flex-direction:column;gap:12px">
+      <p class="ans-label">정답</p>
+      <p class="answer" id="ansTerm"></p>
+      <p class="ans-def" id="ansDef"></p>
+      <h4>모둠 점수 조정</h4>
+      <div class="score-edit" id="scoreEdit"></div>
+      <button class="primary" type="button" id="btnNext">다음 문제</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TERMS = [
+  {t:'수정', c:'사람의 발생', d:'생식세포인 정자의 핵과 난자의 핵이 결합하는 과정'},
+  {t:'발생', c:'사람의 발생', d:'수정란이 체세포 분열을 통해 하나의 개체가 되는 과정'},
+  {t:'난할', c:'사람의 발생', d:'수정란 초기 발생 과정에서 빠르게 일어나는 체세포 분열'},
+  {t:'착상', c:'사람의 발생', d:'수정란이 포배 상태가 되어 자궁 안쪽 벽에 파묻히는 것'},
+  {t:'출산', c:'사람의 발생', d:'태아가 수정된 지 약 266일이 지나 모체 밖으로 나오는 것'},
+  {t:'배아', c:'사람의 발생', d:'수정란이 난할을 시작한 후, 사람의 모습을 갖추기 전까지의 상태'},
+  {t:'태아', c:'사람의 발생', d:'수정 8주 이후부터 출생할 때까지의 시기'},
+  {t:'포배', c:'사람의 발생', d:'수정란이 난할을 거쳐 만들어진 속이 빈 구형의 세포 덩어리'},
+  {t:'형질', c:'유전', d:'생물이 가지고 있는 고유한 특징'},
+  {t:'유전', c:'유전', d:'자신이 가진 형질을 자손에게 물려주는 현상'},
+  {t:'대립 형질', c:'유전', d:'서로 뚜렷하게 구별되는 형질'},
+  {t:'대립 유전자', c:'유전', d:'서로 다른 대립 형질을 결정하는 유전자'},
+  {t:'순종', c:'유전', d:'대립 유전자가 동일한 개체'},
+  {t:'잡종', c:'유전', d:'대립 유전자가 서로 다른 개체'},
+  {t:'우성', c:'유전', d:'잡종 1대에서 표현되는 형질'},
+  {t:'열성', c:'유전', d:'잡종 1대에서 표현되지 않는 형질'},
+  {t:'표현형', c:'유전', d:'겉으로 드러나는 형질'},
+  {t:'유전자형', c:'유전', d:'대립 유전자 구성을 알파벳으로 나타낸 것'}
+];
+const N = TERMS.length;
+const NUM = ['①','②','③'];
+const CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+function chosung(s){
+  return [...s].map(ch => { const c = ch.charCodeAt(0); return (c >= 0xAC00 && c <= 0xD7A3) ? CHO[Math.floor((c - 0xAC00) / 588)] : ch; }).join('');
+}
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function optionsFor(idx){
+  const same = TERMS.map((_, i) => i).filter(i => i !== idx && TERMS[i].c === TERMS[idx].c);
+  return shuffle([idx, ...shuffle(same).slice(0, 2)]);
+}
+
+/* 학습한 용어: 이 브라우저에 저장 (연습에서 한 번이라도 맞힌 용어) */
+const KEY = 'repro-genetics-quiz-learned';
+let learned = new Set();
+try { const v = JSON.parse(localStorage.getItem(KEY) || '[]'); if (Array.isArray(v)) learned = new Set(v.filter(t => TERMS.some(x => x.t === t))); } catch (e) {}
+function saveLearned(){ try { localStorage.setItem(KEY, JSON.stringify([...learned])); } catch (e) {} }
+
+/* 화면 전환 */
+const SCREENS = ['home','practice','pResult','setup','play','ranking'];
+function show(id){
+  if (id !== 'play') { stopTimer(); $('modal').hidden = true; }
+  SCREENS.forEach(s => $(s).hidden = s !== id);
+  if (id === 'home') { $('homeLearned').textContent = `학습한 용어 ${learned.size} / ${N}`; $('homePlayMeta').textContent = `${nextRound()}차 플레이 차례 · 모둠 2~8개`; }
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('[data-home]').forEach(b => b.addEventListener('click', () => show('home')));
+
+/* 용어 목록 */
+(function(){
+  const wrap = $('termList');
+  ['사람의 발생','유전'].forEach(cat => {
+    wrap.append(el('h3', null, cat));
+    const dl = el('dl');
+    TERMS.filter(x => x.c === cat).forEach(x => { dl.append(el('dt', null, x.t), el('dd', null, x.d)); });
+    wrap.append(dl);
+  });
+})();
+
+/* ───── 연습 모드 ───── */
+let P;
+function startPractice(){
+  P = { qs: shuffle(TERMS.map((_, i) => i)).slice(0, 10), i: 0, ok: 0, bad: 0, wrong: [], before: new Set(learned) };
+  show('practice'); renderP();
+}
+function renderP(){
+  const idx = P.qs[P.i], q = TERMS[idx];
+  $('pNum').textContent = P.i + 1;
+  $('pBar').style.width = (P.i / 10 * 100) + '%';
+  $('pQ').textContent = q.d;
+  $('pCat').textContent = q.c;
+  $('pOk').textContent = P.ok; $('pBad').textContent = P.bad;
+  const box = $('pOpts'); box.replaceChildren();
+  optionsFor(idx).forEach((o, k) => {
+    const b = el('button', 'opt'); b.type = 'button'; b.dataset.idx = o;
+    b.append(el('span', 'n', NUM[k]), el('span', null, TERMS[o].t));
+    b.addEventListener('click', () => answerP(o));
+    box.append(b);
+  });
+  $('pFb').hidden = true; $('pNext').hidden = true;
+}
+function answerP(choice){
+  const idx = P.qs[P.i], right = choice === idx;
+  $('pOpts').querySelectorAll('.opt').forEach(b => {
+    const o = +b.dataset.idx; b.disabled = true;
+    if (o === idx) { b.classList.add('correct'); b.append(el('span', 'mark', '정답')); }
+    else if (o === choice) { b.classList.add('wrong'); b.append(el('span', 'mark', '선택')); }
+    else b.classList.add('dim');
+  });
+  const fb = $('pFb'); fb.replaceChildren();
+  if (right) { P.ok++; learned.add(TERMS[idx].t); saveLearned(); fb.className = 'feedback ok'; fb.append(el('span', null, '정답입니다!')); }
+  else { P.bad++; P.wrong.push(idx); fb.className = 'feedback bad'; fb.append(el('span', null, `오답입니다. 정답은 ‘${TERMS[idx].t}’입니다.`)); }
+  fb.hidden = false;
+  $('pOk').textContent = P.ok; $('pBad').textContent = P.bad;
+  $('pBar').style.width = ((P.i + 1) / 10 * 100) + '%';
+  const nx = $('pNext'); nx.textContent = P.i === 9 ? '결과 보기' : '다음 문제'; nx.hidden = false; nx.focus();
+}
+$('pNext').addEventListener('click', () => { P.i++; if (P.i >= 10) showPResult(); else renderP(); });
+function showPResult(){
+  $('rOk').textContent = P.ok; $('rBad').textContent = P.bad;
+  $('rLearned').textContent = learned.size;
+  $('rMeter').style.width = (learned.size / N * 100) + '%';
+  const chips = $('rChips'); chips.replaceChildren();
+  let fresh = 0;
+  TERMS.forEach(x => {
+    const on = learned.has(x.t), isNew = on && !P.before.has(x.t);
+    if (isNew) fresh++;
+    chips.append(el('span', 'tchip' + (on ? ' on' : '') + (isNew ? ' new' : ''), x.t));
+  });
+  $('rNew').textContent = (fresh ? `이번 연습에서 새로 익힌 용어 ${fresh}개. ` : '') + '한 번이라도 맞힌 용어를 학습한 용어로 셉니다. 기록은 이 브라우저에 남습니다.';
+  const rv = $('rReview'); rv.replaceChildren();
+  P.wrong.forEach(i => { const li = el('li'); li.append(el('b', null, TERMS[i].t), el('span', null, TERMS[i].d)); rv.append(li); });
+  $('rReviewPanel').hidden = P.wrong.length === 0;
+  show('pResult');
+}
+$('btnPractice').addEventListener('click', startPractice);
+$('btnAgain').addEventListener('click', startPractice);
+
+/* ───── 모둠 설정 ───── */
+let groupCount = 4, groupNames = [];
+function renderSetup(){
+  $('gCount').textContent = groupCount;
+  $('gMinus').disabled = groupCount <= 2; $('gPlus').disabled = groupCount >= 8;
+  const box = $('gNames'); box.replaceChildren();
+  for (let i = 0; i < groupCount; i++){
+    const lab = el('label'); lab.htmlFor = 'gname' + i;
+    lab.append(document.createTextNode(`${i + 1}번째 모둠 이름`));
+    const inp = el('input'); inp.id = 'gname' + i; inp.maxLength = 12; inp.placeholder = `예) ${i + 1}모둠`; inp.value = groupNames[i] || '';
+    inp.addEventListener('input', () => { groupNames[i] = inp.value; checkSetup(); });
+    lab.append(inp); box.append(lab);
+  }
+  checkSetup();
+}
+function checkSetup(){
+  const ready = Array.from({length: groupCount}, (_, i) => (groupNames[i] || '').trim()).every(Boolean);
+  $('btnStart').hidden = !ready;
+  $('setupHint').hidden = ready;
+}
+$('gMinus').addEventListener('click', () => { if (groupCount > 2) { groupCount--; renderSetup(); } });
+$('gPlus').addEventListener('click', () => { if (groupCount < 8) { groupCount++; renderSetup(); } });
+$('fillNames').addEventListener('click', () => { for (let i = 0; i < groupCount; i++) if (!(groupNames[i] || '').trim()) groupNames[i] = `${i + 1}모둠`; renderSetup(); });
+$('btnPlay').addEventListener('click', () => { show('setup'); renderSetup(); renderRound(); });
+
+/* ───── 플레이 모드 ───── */
+let G;
+const Q_COUNT = 10, MC_COUNT = 6, POINT = 5;
+/* 1차 플레이에 나온 용어를 기억했다가 2차 플레이에서는 나오지 않은 용어부터 출제 */
+const ROUND_KEY = 'repro-genetics-quiz-round1';
+let round1 = null;
+try { const v = JSON.parse(localStorage.getItem(ROUND_KEY) || 'null'); if (Array.isArray(v)) round1 = v.filter(t => TERMS.some(x => x.t === t)); } catch (e) {}
+function saveRound1(){ try { if (round1) localStorage.setItem(ROUND_KEY, JSON.stringify(round1)); else localStorage.removeItem(ROUND_KEY); } catch (e) {} }
+function nextRound(){ return round1 ? 2 : 1; }
+function renderRound(){
+  const r = nextRound();
+  $('roundLabel').textContent = `${r}차 플레이`;
+  if (r === 1) {
+    $('roundDesc').textContent = `용어 ${N}개 중 10개를 무작위로 냅니다. 끝나면 나온 용어를 기억해 두었다가 2차 플레이에 반영합니다.`;
+  } else {
+    const fresh = N - round1.length;
+    $('roundDesc').textContent = `1차 플레이에 나오지 않은 용어 ${Math.min(fresh, Q_COUNT)}개를 모두 내고, 나머지 ${Math.max(0, Q_COUNT - fresh)}문제는 1차에 나온 용어에서 냅니다.`;
+  }
+  $('roundReset').hidden = r === 1;
+}
+$('roundReset').addEventListener('click', () => { round1 = null; saveRound1(); renderRound(); });
+function buildQs(round){
+  const all = shuffle(TERMS.map((_, i) => i));
+  let picks = all.slice(0, Q_COUNT);
+  if (round === 2) {
+    const used = new Set(round1);
+    const fresh = all.filter(i => !used.has(TERMS[i].t));
+    const old = all.filter(i => used.has(TERMS[i].t));
+    picks = [...fresh, ...old].slice(0, Q_COUNT);
+  }
+  picks = shuffle(picks);
+  const types = shuffle([...Array(MC_COUNT).fill('mc'), ...Array(Q_COUNT - MC_COUNT).fill('sa')]);
+  return picks.map((i, k) => types[k] === 'mc' ? {idx: i, type: 'mc', opts: optionsFor(i)} : {idx: i, type: 'sa'});
+}
+function startPlay(){
+  const names = Array.from({length: groupCount}, (_, i) => groupNames[i].trim());
+  const round = nextRound();
+  G = { names, scores: names.map(() => 0), qs: buildQs(round), i: 0, round };
+  show('play'); renderQ();
+}
+$('btnStart').addEventListener('click', startPlay);
+$('btnReplay').addEventListener('click', startPlay);
+
+function renderBoard(){
+  const b = $('board'); b.replaceChildren();
+  G.names.forEach((n, k) => { const r = el('div', 'brow'); r.append(el('span', 'nm', n), el('span', 'sc', G.scores[k])); b.append(r); });
+}
+function renderQ(){
+  const q = G.qs[G.i], term = TERMS[q.idx];
+  $('qNum').textContent = G.i + 1;
+  $('qBar').style.width = (G.i / G.qs.length * 100) + '%';
+  const chip = $('qChip');
+  chip.textContent = q.type === 'mc' ? '선택형' : '단답형';
+  chip.classList.toggle('sa', q.type === 'sa');
+  $('qText').textContent = term.d;
+  const ol = $('qOpts'); ol.replaceChildren();
+  const cho = $('qCho'); cho.replaceChildren();
+  if (q.type === 'mc') {
+    q.opts.forEach((o, k) => { const li = el('li'); li.append(el('span', 'n', NUM[k]), document.createTextNode(TERMS[o].t)); ol.append(li); });
+    ol.hidden = false; $('qChoWrap').hidden = true;
+  } else {
+    term.t.split(' ').forEach(w => { const wd = el('div', 'word'); [...chosung(w)].forEach(c => wd.append(el('span', 'ch', c))); cho.append(wd); });
+    ol.hidden = true; $('qChoWrap').hidden = false;
+  }
+  renderBoard();
+  $('quitAsk').hidden = true; $('btnQuit').hidden = false;
+  $('modal').hidden = true;
+  startTimer();
+}
+
+/* 10초 타이머 */
+const LIMIT = 10000, CIRC = 276.46;
+let tRemain = LIMIT, tLast = 0, tId = null;
+function drawTimer(){
+  const s = Math.ceil(tRemain / 1000);
+  $('tNum').textContent = s;
+  $('ring').style.strokeDashoffset = CIRC * (1 - tRemain / LIMIT);
+  $('timer').classList.toggle('low', s <= 3);
+}
+function tick(){
+  const now = performance.now(); tRemain -= now - tLast; tLast = now;
+  if (tRemain <= 0) { tRemain = 0; stopTimer(); drawTimer(); timeUp(); return; }
+  drawTimer();
+}
+function startTimer(){ tRemain = LIMIT; drawTimer(); resumeTimer(); }
+function resumeTimer(){ clearInterval(tId); tLast = performance.now(); tId = setInterval(tick, 100); }
+function stopTimer(){ clearInterval(tId); tId = null; }
+function pauseTimer(){ if (tId) { tick(); stopTimer(); } }
+
+function timeUp(){
+  $('quitAsk').hidden = true; $('btnQuit').hidden = false;
+  $('dlgPre').hidden = false; $('dlgPre').style.display = 'flex';
+  $('dlgPost').hidden = true;
+  $('modal').hidden = false;
+  $('btnReveal').focus();
+}
+$('btnReveal').addEventListener('click', () => {
+  const q = G.qs[G.i], term = TERMS[q.idx];
+  $('ansTerm').textContent = q.type === 'mc' ? `${NUM[q.opts.indexOf(q.idx)]} ${term.t}` : term.t;
+  $('ansDef').textContent = term.d;
+  renderScoreEdit();
+  $('btnNext').textContent = G.i === G.qs.length - 1 ? '최종 순위 보기' : '다음 문제';
+  $('dlgPre').hidden = true; $('dlgPre').style.display = '';
+  $('dlgPost').hidden = false; $('dlgPost').style.display = 'flex';
+  $('btnNext').focus({preventScroll: true});
+});
+function renderScoreEdit(){
+  const box = $('scoreEdit'); box.replaceChildren();
+  G.names.forEach((n, k) => {
+    const row = el('div', 'se-row');
+    const minus = el('button', 'round', `−${POINT}`); minus.type = 'button'; minus.setAttribute('aria-label', `${n} ${POINT}점 빼기`);
+    const plus = el('button', 'round', `+${POINT}`); plus.type = 'button'; plus.setAttribute('aria-label', `${n} ${POINT}점 더하기`);
+    const out = el('output', null, G.scores[k]);
+    minus.addEventListener('click', () => { G.scores[k] -= POINT; out.textContent = G.scores[k]; renderBoard(); });
+    plus.addEventListener('click', () => { G.scores[k] += POINT; out.textContent = G.scores[k]; renderBoard(); });
+    row.append(el('span', 'nm', n), minus, out, plus);
+    box.append(row);
+  });
+}
+$('btnNext').addEventListener('click', () => {
+  G.i++;
+  if (G.i >= G.qs.length) showRanking(); else renderQ();
+});
+
+/* 그만하기 (확인하는 동안 타이머 멈춤) */
+$('btnQuit').addEventListener('click', () => { pauseTimer(); $('btnQuit').hidden = true; $('quitAsk').hidden = false; $('quitNo').focus(); });
+$('quitNo').addEventListener('click', () => { $('quitAsk').hidden = true; $('btnQuit').hidden = false; if (tRemain > 0 && $('modal').hidden) resumeTimer(); });
+$('quitYes').addEventListener('click', () => show('home'));
+
+/* 순위 */
+function showRanking(){
+  $('qBar').style.width = '100%';
+  if (G.round === 1) round1 = [...new Set(G.qs.map(q => TERMS[q.idx].t))]; else round1 = null;
+  saveRound1();
+  $('rankEyebrow').textContent = `${G.round}차 플레이 · ${G.qs.length}문제 완료`;
+  $('rankNote').textContent = G.round === 1 ? `2차 플레이에서는 이번에 나오지 않은 용어 ${N - round1.length}개가 먼저 나옵니다.` : '2차 플레이까지 마쳤습니다. 다음 플레이는 다시 1차부터 시작합니다.';
+  $('btnReplay').textContent = G.round === 1 ? '같은 모둠으로 2차 플레이' : '같은 모둠으로 다시 하기 (1차)';
+  const order = G.names.map((n, k) => ({n, s: G.scores[k]})).sort((a, b) => b.s - a.s);
+  const list = $('rankList'); list.replaceChildren();
+  order.forEach(g => {
+    const rank = 1 + order.filter(x => x.s > g.s).length;
+    const li = el('li', rank === 1 ? 'top' : '');
+    const sc = el('span', 'sc', g.s); sc.append(el('small', null, '점'));
+    li.append(el('span', 'r', rank + '위'), el('span', 'nm', g.n), sc);
+    list.append(li);
+  });
+  show('ranking');
+}
+
+show('home');
+</script>
+
+</body></html>
