@@ -244,7 +244,7 @@ h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.8rem,4vw,2.
     </button>
     <button class="mode play" id="btnPlay" type="button">
       <span class="mode-name">플레이 모드</span>
-      <span class="mode-desc">모둠 대항 · 단답형 10문제 (초성 힌트) · 문제당 10초 · 정답 5점</span>
+      <span class="mode-desc">모둠 대항 · 10문제 (선택형 6 · 단답형 4, 무작위 순서) · 문제당 10초 · 정답 5점</span>
       <span class="mode-meta" id="homePlayMeta">1차 플레이 차례</span>
     </button>
   </div>
@@ -543,7 +543,7 @@ $('btnPlay').addEventListener('click', () => { show('setup'); renderSetup(); ren
 
 /* ───── 플레이 모드 ───── */
 let G;
-const Q_COUNT = 10, MC_COUNT = 0, POINT = 5;
+const Q_COUNT = 10, MC_COUNT = 6, POINT = 5;
 /* 1차 플레이에 나온 용어를 기억했다가 2차 플레이에서는 나오지 않은 용어부터 출제 */
 const ROUND_KEY = 'repro-genetics-quiz-round1';
 let round1 = null;
