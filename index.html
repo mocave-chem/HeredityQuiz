@@ -101,7 +101,8 @@ h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.8rem,4vw,2.
 .round:disabled{opacity:.35;cursor:not-allowed}
 
 /* practice */
-.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.options{grid-template-columns:1fr}}
 .opt{display:flex;align-items:center;gap:12px;padding:18px 20px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);text-align:left;font-size:1.25rem;font-weight:700}
 .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
 .opt:disabled{cursor:default}
@@ -168,7 +169,7 @@ h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.8rem,4vw,2.
 .timer.low .tnum{color:var(--bad)}
 .qcard.big{padding:30px 32px;gap:22px}
 .qcard.big .qtext{font-size:clamp(1.4rem,3vw,2rem)}
-.optd{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.optd{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:560px){.optd{grid-template-columns:1fr}}
 .optd li{padding:18px 12px;border-radius:14px;background:var(--accent-soft);font-size:clamp(1.25rem,2.4vw,1.7rem);font-weight:700;text-align:center;overflow-wrap:anywhere}
 .optd .n{display:block;font-size:1rem;color:var(--accent);font-weight:600}
@@ -239,12 +240,12 @@ h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.8rem,4vw,2.
   <div class="modes">
     <button class="mode" id="btnPractice" type="button">
       <span class="mode-name">연습 모드</span>
-      <span class="mode-desc">혼자 풀기 · 용어 18개 중 10문제를 무작위로 · 보기 3개 중 고르면 바로 채점</span>
+      <span class="mode-desc">혼자 풀기 · 용어 18개 중 10문제를 무작위로 · 보기 4개 중 고르면 바로 채점</span>
       <span class="mode-meta" id="homeLearned">학습한 용어 0 / 18</span>
     </button>
     <button class="mode play" id="btnPlay" type="button">
       <span class="mode-name">플레이 모드</span>
-      <span class="mode-desc">모둠 대항 · 10문제 (선택형 6 · 단답형 4, 무작위 순서) · 문제당 10초 · 정답 5점</span>
+      <span class="mode-desc">모둠 대항 · 단답형 10문제 (초성 힌트) · 문제당 10초 · 정답 5점</span>
       <span class="mode-meta" id="homePlayMeta">1차 플레이 차례</span>
     </button>
   </div>
@@ -416,7 +417,7 @@ const TERMS = [
   {t:'유전자형', c:'유전', d:'대립 유전자 구성을 알파벳으로 나타낸 것'}
 ];
 const N = TERMS.length;
-const NUM = ['①','②','③'];
+const NUM = ['①','②','③','④'];
 const CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
 const $ = id => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
@@ -425,9 +426,16 @@ function chosung(s){
   return [...s].map(ch => { const c = ch.charCodeAt(0); return (c >= 0xAC00 && c <= 0xD7A3) ? CHO[Math.floor((c - 0xAC00) / 588)] : ch; }).join('');
 }
 function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+/* 헷갈리는 짝: 문제의 정답이 짝 용어라면 그 짝이 반드시 보기에 들어감 */
+const PAIRS = [['배아','태아'], ['난할','포배'], ['순종','잡종'], ['우성','열성'], ['표현형','유전자형'], ['대립 형질','대립 유전자']];
+const OPT_COUNT = 4;
 function optionsFor(idx){
-  const same = TERMS.map((_, i) => i).filter(i => i !== idx && TERMS[i].c === TERMS[idx].c);
-  return shuffle([idx, ...shuffle(same).slice(0, 2)]);
+  const t = TERMS[idx].t;
+  const pair = PAIRS.find(p => p.includes(t));
+  const mateIdx = pair ? TERMS.findIndex(x => x.t === pair.find(y => y !== t)) : -1;
+  const picks = mateIdx >= 0 ? [idx, mateIdx] : [idx];
+  const pool = TERMS.map((_, i) => i).filter(i => !picks.includes(i) && TERMS[i].c === TERMS[idx].c);
+  return shuffle([...picks, ...shuffle(pool).slice(0, OPT_COUNT - picks.length)]);
 }
 
 /* 학습한 용어: 이 브라우저에 저장 (연습에서 한 번이라도 맞힌 용어) */
@@ -543,7 +551,7 @@ $('btnPlay').addEventListener('click', () => { show('setup'); renderSetup(); ren
 
 /* ───── 플레이 모드 ───── */
 let G;
-const Q_COUNT = 10, MC_COUNT = 6, POINT = 5;
+const Q_COUNT = 10, MC_COUNT = 0, POINT = 5;
 /* 1차 플레이에 나온 용어를 기억했다가 2차 플레이에서는 나오지 않은 용어부터 출제 */
 const ROUND_KEY = 'repro-genetics-quiz-round1';
 let round1 = null;
